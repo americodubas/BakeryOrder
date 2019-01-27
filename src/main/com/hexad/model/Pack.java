@@ -1,9 +1,11 @@
 package com.hexad.model;
 
+import com.hexad.common.ConverterToBigDecimal;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Pack {
+public class Pack implements ConverterToBigDecimal {
     private int packQuantity;
     private int productQuantity;
     private BigDecimal unitPackPrice;
@@ -26,12 +28,12 @@ public class Pack {
     public Pack(int packQuantity, int productQuantity, BigDecimal unitPackPrice) {
         this.packQuantity = packQuantity;
         this.productQuantity = productQuantity;
-        this.unitPackPrice = unitPackPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.unitPackPrice = setScaleAndRound(unitPackPrice);
     }
 
     Pack(int productQuantity, BigDecimal unitPackPrice) {
         this.productQuantity = productQuantity;
-        this.unitPackPrice = unitPackPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.unitPackPrice = setScaleAndRound(unitPackPrice);
     }
 
     public int getPackQuantity() {

@@ -1,5 +1,6 @@
 package com.hexad.service;
 
+import com.hexad.common.ConverterToBigDecimal;
 import com.hexad.exception.OrderNotFilledException;
 import com.hexad.exception.ProductNotFoundException;
 import com.hexad.model.Order;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class OrderServiceTest {
+public class OrderServiceTest implements ConverterToBigDecimal {
 
     private OrderService orderService;
     private Order seventeenCroissantOrder;
@@ -48,18 +49,18 @@ public class OrderServiceTest {
         List<Order> orderList = orderService.processOrder(Arrays.asList("10 VS5", "14 MB11", "13 CF"));
 
         order = orderList.get(0);
-        assertEquals(new Order(10, "VS5", createBigDecimal(17.98)), order);
-        assertEquals(new Pack(2, 5, createBigDecimal(8.99)), order.getPackList().get(0));
+        assertEquals(new Order(10, "VS5", toBigDecimal(17.98)), order);
+        assertEquals(new Pack(2, 5, toBigDecimal(8.99)), order.getPackList().get(0));
 
         order = orderList.get(1);
-        assertEquals(new Order(14, "MB11", createBigDecimal(54.80)), order);
-        assertEquals(new Pack(3, 2, createBigDecimal(9.95)), order.getPackList().get(0));
-        assertEquals(new Pack(1, 8, createBigDecimal(24.95)), order.getPackList().get(1));
+        assertEquals(new Order(14, "MB11", toBigDecimal(54.80)), order);
+        assertEquals(new Pack(3, 2, toBigDecimal(9.95)), order.getPackList().get(0));
+        assertEquals(new Pack(1, 8, toBigDecimal(24.95)), order.getPackList().get(1));
 
         order = orderList.get(2);
-        assertEquals(new Order(13, "CF", createBigDecimal(25.85)), order);
-        assertEquals(new Pack(1, 3, createBigDecimal(5.95)), order.getPackList().get(0));
-        assertEquals(new Pack(2, 5, createBigDecimal(9.95)), order.getPackList().get(1));
+        assertEquals(new Order(13, "CF", toBigDecimal(25.85)), order);
+        assertEquals(new Pack(1, 3, toBigDecimal(5.95)), order.getPackList().get(0));
+        assertEquals(new Pack(2, 5, toBigDecimal(9.95)), order.getPackList().get(1));
     }
 
     /**
@@ -104,7 +105,7 @@ public class OrderServiceTest {
         assertEquals(5, seventeenCroissantOrder.getPackList().get(1).getProductQuantity());
         assertEquals(1, seventeenCroissantOrder.getPackList().get(2).getPackQuantity());
         assertEquals(9, seventeenCroissantOrder.getPackList().get(2).getProductQuantity());
-        assertEquals(createBigDecimal(  32.89f), seventeenCroissantOrder.getTotalPrice());
+        assertEquals(toBigDecimal(  32.89f), seventeenCroissantOrder.getTotalPrice());
     }
 
     /**
@@ -122,10 +123,6 @@ public class OrderServiceTest {
         assertEquals(2, fourteenBlueberryMuffinOrder.getPackList().get(0).getProductQuantity());
         assertEquals(1, fourteenBlueberryMuffinOrder.getPackList().get(1).getPackQuantity());
         assertEquals(8, fourteenBlueberryMuffinOrder.getPackList().get(1).getProductQuantity());
-        assertEquals(createBigDecimal(54.8), fourteenBlueberryMuffinOrder.getTotalPrice());
-    }
-
-    private BigDecimal createBigDecimal(double value) {
-        return new BigDecimal(value).setScale(2, BigDecimal.ROUND_HALF_UP);
+        assertEquals(toBigDecimal(54.8), fourteenBlueberryMuffinOrder.getTotalPrice());
     }
 }

@@ -1,11 +1,13 @@
 package com.hexad.model;
 
+import com.hexad.common.ConverterToBigDecimal;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Order {
+public class Order implements ConverterToBigDecimal{
     private String productCode;
     private int productQuantity;
     private BigDecimal totalPrice;
@@ -36,7 +38,7 @@ public class Order {
     public Order(int productQuantity, String productCode) {
         this.productCode = productCode;
         this.productQuantity = productQuantity;
-        this.totalPrice = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.totalPrice = toBigDecimal(0);
         this.packList = new ArrayList<>();
     }
 

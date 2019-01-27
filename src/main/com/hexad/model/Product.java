@@ -1,10 +1,12 @@
 package com.hexad.model;
 
+import com.hexad.common.ConverterToBigDecimal;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product implements ConverterToBigDecimal {
     private String code;
     private String name;
     private List<Pack> packList;
@@ -15,7 +17,7 @@ public class Product {
         this.packList = new ArrayList<>();
         for (String packArg: packArgs) {
             String[] split = packArg.split(" ");
-            packList.add(new Pack(Integer.parseInt(split[0]), BigDecimal.valueOf(Double.parseDouble(split[1]))));
+            packList.add(new Pack(Integer.parseInt(split[0]), toBigDecimal(Double.parseDouble(split[1]))));
         }
     }
 
